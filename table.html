@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table View</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .table {
+            width: 200px;
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .seat {
+            width: 30px;
+            height: 30px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="tableContainer"></div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const tableName = urlParams.get('name');
+        const tableType = urlParams.get('type');
+        const seatCount = parseInt(urlParams.get('seats'));
+
+        const tableContainer = document.getElementById('tableContainer');
+        const table = document.createElement('div');
+        table.className = 'table';
+        table.style.borderRadius = tableType === 'circle' ? '50%' : '0';
+        table.textContent = tableName;
+
+        for (let i = 0; i < seatCount; i++) {
+            const seat = document.createElement('div');
+            seat.className = 'seat';
+            const angle = (i / seatCount) * 2 * Math.PI;
+            const radius = 120;
+            seat.style.left = `${Math.cos(angle) * radius + 100}px`;
+            seat.style.top = `${Math.sin(angle) * radius + 100}px`;
+            table.appendChild(seat);
+        }
+
+        tableContainer.appendChild(table);
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Reservation System</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <header>
+        <h1>Table Reservation System</h1>
+        <button id="createTableBtn">Create Table</button>
+    </header>
+
+    <main id="tableContainer"></main>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Table</h2>
+            <form id="tableForm">
+                <label for="tableName">Table Name:</label>
+                <input type="text" id="tableName" required>
+
+                <label for="tableType">Table Type:</label>
+                <select id="tableType" required>
+                    <option value="square">Square</option>
+                    <option value="circle">Circle</option>
+                </select>
+
+                <label for="seatCount">Number of Seats:</label>
+                <input type="number" id="seatCount" min="1" max="12" required>
+
+                <button type="submit">Add Table</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
