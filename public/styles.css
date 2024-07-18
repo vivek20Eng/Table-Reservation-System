@@ -5,7 +5,7 @@
    }
    
    body {
-    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: system-ui,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
     margin: 0;
     padding: 0;
     background-color: var(--background-color);
@@ -77,6 +77,8 @@ header h1 {
 
 .table-card {
     border: 1px solid #ccc;
+    background-color: white;
+
     border-radius: 5px;
     margin: 10px;
     padding: 15px;

@@ -1,0 +1,21 @@
+# Node.js dependencies
+node_modules/
+
+# npm lock file
+package-lock.json
+
+# Environment variables file
+.env
+
+# Log files
+*.log
+
+# IDE files
+.vscode/
+.idea/
+
+# macOS specific files
+.DS_Store
+
+# Compiled output (example: dist directory for TypeScript)
+dist/
