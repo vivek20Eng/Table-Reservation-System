@@ -2,7 +2,7 @@
 
 # Table Reservation System
 
-![Table Reservation System](screenshoot1.png) 
+![Table Reservation System](screenshoots/1.png) 
 
 ## Overview
 
@@ -19,12 +19,6 @@ Check out the live demo: [Table Reservation System](https://table-reservation-sy
 - View detailed table layouts with seats arranged around the table.
 - Persistent data storage using `localStorage`.
 
-## Screenshots
-
-<!-- Add relevant screenshots of your project -->
-![Main Page](screenshot.png)
-![Create Table Modal](_screenshot.png)
-![Table Detail View](_view_screenshot.png)
 
 ## Installation
 
@@ -59,6 +53,13 @@ To run this project locally, follow these steps:
 - <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/css/css.png" height="20px" alt="CSS"> CSS
 - <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png" height="20px" alt="JavaScript"> JavaScript
 - <img src="https://cdn.jsdelivr.net/npm/programming-languages-logos/src/javascript/javascript.png" height="20px" alt="LocalStorage"> LocalStorage for persistent data storage
+
+## Screenshots
+
+![Main Page](screenshoots/1.png)
+![Create Table Modal](screenshoots/2.png)
+![Table Detail View](screenshoots/3.png)
+![Add User in Table](screenshoots/4.png)
 
 ## contact
 - vivek
