@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table View</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header class="glassmorphism">
+        <h1>Table View</h1>
+    </header>
+    <a href="index.html" class="back-btn "><i class="fa-solid fa-less-than"></i> Back to Tables</a>
+
+    <div class="table-view glassmorphism">
+        <div class="table-info neumorphism">
+            <h2 id="tableName"></h2>
+            <p id="tableDescription"></p>
+            <p id="tableSeats"></p>
+            <p id="tableType"></p>
+        </div>
+
+        <div class="table-container">
+            <div id="table" class="table neumorphism"></div>
+        </div>
+
+        <button id="addPersonBtn" class=" neumorphism">Add Person</button>
+    </div>
+
+    <div id="personModal" class="modal">
+        <div class="modal-content glassmorphism">
+            <span class="close">&times;</span>
+            <h2>Add Person</h2>
+            <form id="addPersonForm">
+                <input type="text" id="personName" placeholder="Enter person's name" required>
+                <select id="seatSelect"></select>
+                <button type="submit"class="button-2">Add Person</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="messageContainer" class="message-container"></div>
+    <footer class="glassmorphism">
+        <p>Created by Vivek</p>
+        <a href="https://github.com/vivek20Eng/Table-Reservation-System" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> GitHub Repository
+        </a>
+    </footer>
+    <script>
+        // DOM elements
+        const tableContainer = document.getElementById('table');
+        const tableName = document.getElementById('tableName');
+        const tableDescription = document.getElementById('tableDescription');
+        const tableSeats = document.getElementById('tableSeats');
+        const tableType = document.getElementById('tableType');
+        const addPersonBtn = document.getElementById('addPersonBtn');
+        const personModal = document.getElementById('personModal');
+        const closeBtn = personModal.querySelector('.close');
+        const addPersonForm = document.getElementById('addPersonForm');
+        const messageContainer = document.getElementById('messageContainer');
+        const seatSelect = document.getElementById('seatSelect');
+
+        let currentTable;
+
+        // Load table details from localStorage on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tableNameParam = urlParams.get('name');
+
+            if (tableNameParam) {
+                loadTableDetails(tableNameParam);
+            } else {
+                showMessage('Table not found', 'error');
+            }
+
+            addPersonBtn.onclick = () => {
+                updateSeatSelect();
+                personModal.style.display = 'block';
+            };
+            closeBtn.onclick = () => personModal.style.display = 'none';
+            window.onclick = (event) => {
+                if (event.target == personModal) {
+                    personModal.style.display = 'none';
+                }
+            };
+
+            addPersonForm.onsubmit = (e) => {
+                e.preventDefault();
+                const personName = document.getElementById('personName').value;
+                const seatNumber = seatSelect.value;
+                addPersonToTable(personName, seatNumber);
+                personModal.style.display = 'none';
+                addPersonForm.reset();
+            };
+        });
+
+        function loadTableDetails(tableNameParam) {
+            let tables = JSON.parse(localStorage.getItem('tables')) || [];
+            currentTable = tables.find(t => t.name === tableNameParam);
+
+            if (currentTable) {
+                tableName.textContent = currentTable.name;
+                tableDescription.textContent = currentTable.description;
+                tableSeats.textContent = `Seats: ${currentTable.seats}`;
+                tableType.textContent = `Type: ${currentTable.type}`;
+
+                renderTable(currentTable);
+            } else {
+                showMessage('Table not found', 'error');
+            }
+        }
+
+        function renderTable(table) {
+            tableContainer.innerHTML = '';
+            tableContainer.className = `table neumorphism ${table.type}`;
+
+            const tableSize = Math.min(tableContainer.offsetWidth, tableContainer.offsetHeight) * 0.8;
+            const centerX = tableSize / 2;
+            const centerY = tableSize / 2;
+            const radius = tableSize * 0.9;
+
+            for (let i = 0; i < table.seats; i++) {
+                const angle = (i / table.seats) * 2 * Math.PI - Math.PI / 2;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+
+                const seat = document.createElement('div');
+                seat.className = `seat neumorphism ${table.type}`;
+                seat.style.left = `${x}px`;
+                seat.style.top = `${y}px`;
+                seat.innerHTML = `
+                    <div class="user-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="seat-number">${i + 1}</div>
+                `;
+                seat.onclick = () => {
+                    const personName = prompt('Enter person name:');
+                    if (personName) {
+                        addPersonToTable(personName, i + 1);
+                    }
+                };
+                tableContainer.appendChild(seat);
+
+                const nameLabel = document.createElement('div');
+                nameLabel.className = 'name-label';
+                const labelAngle = angle + Math.PI;
+                const labelRadius = radius * 1.3;
+                const labelX = centerX + labelRadius * Math.cos(labelAngle);
+                const labelY = centerY + labelRadius * Math.sin(labelAngle);
+                nameLabel.style.left = `${labelX}px`;
+                nameLabel.style.top = `${labelY}px`;
+                nameLabel.style.transform = `translate(-50%, -50%) rotate(${angle * 180 / Math.PI + 90}deg)`;
+                tableContainer.appendChild(nameLabel);
+            }
+        }
+
+        function addPersonToTable(name, seatNumber) {
+            if (name && seatNumber) {
+                const seat = tableContainer.children[seatNumber - 1];
+                if (!seat) {
+                    showMessage(`Invalid seat number: ${seatNumber}`, 'error');
+                    return;
+                }
+        
+                const userIcon = seat.querySelector('.user-icon');
+                if (userIcon) {
+                    userIcon.innerHTML = `<i class="fas fa-user"></i>`;
+                    userIcon.style.backgroundColor = getRandomColor();
+                }
+        
+                seat.classList.add('occupied');
+                seat.setAttribute('data-name', name);
+                seat.title = name;
+        
+                // Use a more specific selector for the name label
+                const nameLabel = tableContainer.querySelector(`.name-label:nth-of-type(${parseInt(seatNumber) + currentTable.seats})`);
+                if (nameLabel) {
+                    nameLabel.textContent = name;
+                    nameLabel.style.opacity = '1';
+                } else {
+                    console.warn(`Name label for seat ${seatNumber} not found`);
+                }
+        
+                showMessage(`${name} added to seat ${seatNumber}`, 'success');
+                updateSeatSelect();
+            }
+        }
+
+        function updateSeatSelect() {
+            seatSelect.innerHTML = '';
+            const seats = tableContainer.querySelectorAll('.seat');
+            for (let i = 0; i < seats.length; i++) {
+                const option = document.createElement('option');
+                option.value = i + 1;
+                option.textContent = `Seat ${i + 1}`;
+                if (seats[i].classList.contains('occupied')) {
+                    option.textContent += ` (Occupied by ${seats[i].getAttribute('data-name')})`;
+                }
+                seatSelect.appendChild(option);
+            }
+        }
+
+        function getRandomColor() {
+            return `hsl(${Math.random() * 360}, 100%, 75%)`;
+        }
+
+        function showMessage(message, type) {
+            messageContainer.textContent = message;
+            messageContainer.className = `message-container ${type}`;
+            messageContainer.style.display = 'block';
+            setTimeout(() => {
+                messageContainer.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

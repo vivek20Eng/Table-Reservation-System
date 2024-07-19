@@ -5,37 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Table Reservation System</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
 <body>
-    <header>
+    <header class="glassmorphism">
         <h1>Table Reservation System</h1>
-        <button id="createTableBtn">Create Table</button>
+        <div class="search-container neumorphism">
+            <input type="text" id="searchInput" placeholder="Search tables...">
+            <button id="searchBtn"><i class="fas fa-search"></i></button>
+        </div>
     </header>
 
-    <main id="tableContainer"></main>
+    <button id="createTableBtn" class="neumorphism">Add New Table</button>
+
+    <main id="tableContainer" role="main"></main>
 
     <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Create New Table</h2>
+        <div class="modal-content glassmorphism">
+            <span class="close"><i class="fa-regular fa-circle-xmark"></i></span>
             <form id="tableForm">
-                <label for="tableName">Table Name:</label>
-                <input type="text" id="tableName" required>
+                <h2>Create New Table</h2>
+                <span>Table Name</span>
+                <input type="text" id="tableName" placeholder="Table Name" required>
+                <span>Description</span>
+                <textarea id="description" placeholder="Description" required></textarea>
+            
+                <div class="quantity ">
+                    <span>No. of Seats:</span>
+                    <div class="table-quantity">
+                    <button type="button" class="quantity__minus">-</button>
+                    <input type="number" id="seatCount" class="quantity__input" value="1" min="1" max="12" required>
+                    <button type="button" class="quantity__plus">+</button>
+                    </div>
+                </div>
+                <span>Table Type</span>
 
-                <label for="tableType">Table Type:</label>
-                <select id="tableType" required>
-                    <option value="square">Square</option>
-                    <option value="circle">Circle</option>
-                </select>
+                <div class="shape-selector">
 
-                <label for="seatCount">Number of Seats:</label>
-                <input type="number" id="seatCount" min="1" max="12" required>
+                    <div class="shape-option  selected" data-shape="square">
+                        <i class="fas fa-square"></i> Square
+                    </div>
+                    <div class="shape-option " data-shape="circle">
+                        <i class="fas fa-circle"></i> Circle
+                    </div>
+                </div>
+                <div id="tablePreview" class="table-preview"></div>
+                <button type="submit" class="button-2">Add Table</button>
 
-                <button type="submit">Add Table</button>
             </form>
         </div>
     </div>
 
+    <div id="messageContainer" class="message-container"></div>
+    <footer class="glassmorphism">
+        <p>Created by Vivek</p>
+        <a href="https://github.com/vivek20Eng/Table-Reservation-System" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> GitHub Repository
+        </a>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
