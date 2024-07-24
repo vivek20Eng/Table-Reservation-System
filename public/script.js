@@ -143,7 +143,7 @@ minusBtn.addEventListener("click", () => {
 
 plusBtn.addEventListener("click", () => {
   let value = parseInt(quantityInput.value);
-  if (value < 12) {
+  if (value <30) {
     quantityInput.value = value + 1;
     updateTablePreview();
   }
@@ -153,8 +153,8 @@ quantityInput.addEventListener("input", () => {
   let value = parseInt(quantityInput.value);
   if (isNaN(value) || value < 1) {
     quantityInput.value = 1;
-  } else if (value > 12) {
-    quantityInput.value = 12;
+  } else if (value > 30) {
+    quantityInput.value = 30;
   }
   updateTablePreview();
 });
